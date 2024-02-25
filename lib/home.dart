@@ -1,31 +1,36 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dashboard/Page/DetailX.dart';
 import 'package:dashboard/data/popular.dart';
 import 'package:dashboard/data/trend.dart';
 import 'package:dashboard/data/categoris.dart';
 import 'package:dashboard/modules/bindings/home_binding.dart';
+import 'package:dashboard/widget/favorite_page.dart';
 
 import 'package:dashboard/utils/colors/colors.dart';
 import 'package:dashboard/utils/colors/title_text.dart';
-import 'package:dashboard/utils/size.dart';
 import 'package:dashboard/widget/card.dart';
 import 'package:dashboard/widget/container.dart';
+import 'package:dashboard/modules/controllers/home_ctrl.dart';
+
 import 'package:dashboard/widget/info_card.dart';
 import 'package:dashboard/widget/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 
 class HomePage extends GetView<HomeBinding> {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final HomeController controller = Get.find<HomeController>();
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
     final double itemWidth = size.width / 2;
     final double tinggi = size.height / 4;
     double containerSize = MediaQuery.of(context).size.width * 0.3;
     return Scaffold(
-      backgroundColor: db1_white,
+      backgroundColor: db2_white,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,10 +46,11 @@ class HomePage extends GetView<HomeBinding> {
                   text(
                     language,
                     12,
-                    db2_black,
+                    db2_white,
                     FontWeight.normal,
+                  ),SizedBox(
+                    width: 10,
                   ),
-                  Icon(Icons.keyboard_arrow_down_sharp),
                   CircleAvatar(
                     backgroundColor: bg_lonceng,
                     child: Icon(
@@ -53,6 +59,7 @@ class HomePage extends GetView<HomeBinding> {
                     ),
                     radius: 16,
                   ),
+
                 ],
               ),
             ),
@@ -67,7 +74,7 @@ class HomePage extends GetView<HomeBinding> {
                   backgroundColor: bgicon,
                   child: Icon(
                     Icons.location_on_outlined,
-                    color: db1_white,
+                    color: db2_black,
                   ),
                 ),
                 SizedBox(
@@ -76,8 +83,8 @@ class HomePage extends GetView<HomeBinding> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    text(city, 10, text_color, FontWeight.normal),
-                    text(cityy, 12, text_color, FontWeight.normal)
+                    text(city, 10, db2_white, FontWeight.normal),
+                    text(cityy, 12, db2_white, FontWeight.normal)
                   ],
                 ),
                 Expanded(child: SizedBox()),
@@ -128,8 +135,8 @@ class HomePage extends GetView<HomeBinding> {
                 autoPlay: true,
                 enlargeCenterPage: true,
                 height: tinggi,
-                autoPlayInterval: Duration(seconds: 3),
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayInterval: Duration(seconds: 4),
+                autoPlayAnimationDuration: Duration(milliseconds: 1000),
                 autoPlayCurve: Curves.fastOutSlowIn,
                 enlargeFactor: 0.2,
                 scrollDirection: Axis.horizontal,
@@ -138,7 +145,7 @@ class HomePage extends GetView<HomeBinding> {
                 return Builder(
                   builder: (BuildContext context) {
                     return InfoCard(
-                        title: i.nama, imageUrl: i.image, height: 150);
+                        title: i.nama,color: db2_white, imageUrl: i.image, height: 150);
                   },
                 );
               }).toList(),
@@ -164,14 +171,14 @@ class HomePage extends GetView<HomeBinding> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 30,
+                            height: 15,
                           ),
                           Expanded(
                             child: Image.asset(
-                              categories[index].image,
+                              categories[index].image
                             ),
                           ),
-                          Expanded(child: SizedBox()),
+                          SizedBox(height: 15),
                           text(categories[index].nama, 10, db1_white,
                               FontWeight.bold),
                           SizedBox(
@@ -186,21 +193,44 @@ class HomePage extends GetView<HomeBinding> {
             Container(
                 margin: EdgeInsets.only(left: 10),
                 child: text(populardeals, 16, db2_black, FontWeight.bold)),
-            GridView.builder(
+            Obx(() => GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.5,
+                childAspectRatio: .55,
               ),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: shopItems.length,
-              itemBuilder: (BuildContext ctxt, int index) => ShoppingItem(
-                title: shopItems[index].title,
-                description: shopItems[index].description,
-                image: shopItems[index].image,
-                price: shopItems[index].price,
-              ),
-            ),
+              itemCount: controller.shopItems.length,
+              itemBuilder: (BuildContext ctxt, int index) {
+                print("Shop Items Length: ${controller.shopItems.length}");
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(() => const DetailX(), arguments: {
+                      "image": controller.shopItems[index].image,
+                      "title": controller.shopItems[index].title,
+                      "description":controller.shopItems[index].description,
+                      "price":controller.shopItems[index].price,
+                    });
+                  },
+                  child: ShoppingItem(
+                    title: controller.shopItems[index].title,
+                    description: controller.shopItems[index].description,
+                    image: controller.shopItems[index].image,
+                    price: controller.shopItems[index].price,
+                    isLiked: controller.shopItems[index].isLiked,
+                    function: (){
+                      controller.editShopItem(
+                          controller.shopItems[index].id,
+                          controller.shopItems[index].description,
+                          controller.shopItems[index].image,
+                          controller.shopItems[index].price,
+                          controller.shopItems[index].title,
+                          !controller.shopItems[index].isLiked);
+                    },
+                  ),
+                );
+              }
+            )),
             SizedBox(
               height: 30,
             )
@@ -225,8 +255,8 @@ class HomePage extends GetView<HomeBinding> {
                 Icons.favorite,
                 color: nv,
               ),
-              onPressed: () {},
-            ),
+              onPressed: () {
+                Get.to(FavoritesPage());}),
             IconButton(
               icon: Icon(
                 Icons.notifications,

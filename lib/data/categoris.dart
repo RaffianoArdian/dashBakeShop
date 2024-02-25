@@ -1,37 +1,37 @@
-class Categories {
-  final String nama;
-  final String image;
-  
+  class Categories {
+    final String nama;
+    final String image;
 
-  Categories({
-    required this.nama,
-    required this.image,
-  });
-}
+
+    Categories({
+      required this.nama,
+      required this.image,
+    });
+  }
 
 List<Categories> categories = [
   Categories(
-    nama: 'Groceries',
-    image: 'images/sayur.png',
+    nama: 'Cake',
+    image: 'images/english fruit cake.jpg',
   ),
   Categories(
-    nama: 'Appliances',
-    image: 'images/mesin.png',
+    nama: 'Jajan Pasar',
+    image: 'images/cucur.jpg',
   ),
   Categories(
-    nama: 'Fashion',
-    image: 'images/pakaian.png',
+    nama: 'Signature',
+    image: 'images/brownis.jpg',
   ),
   Categories(
-    nama: 'Groceries',
-    image: 'images/sayur.png',
+      nama: 'Cake',
+  image: 'images/pastel.jpg',
   ),
   Categories(
-    nama: 'Appliances',
-    image: 'images/mesin.png',
+    nama: 'Jajan Pasar',
+    image: 'images/cucur.jpg',
   ),
   Categories(
-    nama: 'Fashion',
-    image: 'images/pakaian.png',
+    nama: 'Signature',
+    image: 'images/brownis.jpg',
   ),
 ];

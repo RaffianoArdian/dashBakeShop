@@ -1,54 +1,45 @@
+import 'package:get/get.dart';
+
 class ShopItem {
   final String title;
   final String description;
   final String image;
-  final double price;
-  final bool isLiked;
+  final String price;
+  final int id;
+  bool isLiked;
 
   ShopItem({
     required this.title,
     required this.description,
     required this.image,
     required this.price,
-    this.isLiked = false,
+    required this.id,
+    required this.isLiked,
+
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title' : title,
+      'description' : description,
+      'image' : image,
+      'price' : price,
+      'id' : id,
+      'isLiked' : isLiked ? 1 : 0
+    };
+  }
+
+  factory ShopItem.fromMap(Map<String, dynamic> map) {
+    print("Map from database: $map");
+    return ShopItem(
+      title: map['title'],
+      description: map['description'],
+      image: map['image'],
+      price: map['price'].toString(),
+      id: map['id'],
+      isLiked: map['isLiked'] == 1
+    );
+  }
 }
 
-List<ShopItem> shopItems = [
-  ShopItem(
-    title: 'Baju T-Shirt Putih',
-    image: 'images/tshirt.jpeg',
-    description: 'Baju T-Shirt warna putih dengan desain sederhana.',
-    price: 19.99,
-  ),
-  ShopItem(
-    title: 'Celana Jeans Biru',
-    image: 'images/tshirt.jpeg',
-    description: 'Celana jeans warna biru yang nyaman digunakan.',
-    price: 34.99,
-  ),
-  ShopItem(
-    title: 'Sepatu Sneakers Hitam',
-    image: 'images/sepatunigger.jpg',
-    description: 'Sepatu sneakers warna hitam yang stylish.',
-    price: 49.99,
-  ),
-  ShopItem(
-    title: 'Topi Baseball Merah',
-    image: 'images/topi.jpg',
-    description: 'Topi baseball warna merah dengan logo bordir.',
-    price: 12.99,
-  ),
-  ShopItem(
-    title: 'Tas Ransel Kulit',
-    image: 'images/taskulit.jpg',
-    description: 'Tas ransel kulit sintetis yang kuat dan tahan lama.',
-    price: 59.99,
-  ),
-  ShopItem(
-    title: 'Jam Tangan Digital',
-    image: 'images/jamtangan.jpg',
-    description: 'Jam tangan digital dengan fitur canggih.',
-    price: 29.99,
-  ),
-];
+

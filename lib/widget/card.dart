@@ -1,13 +1,18 @@
+import 'package:dashboard/home.dart';
+import 'package:dashboard/modules/controllers/home_ctrl.dart';
 import 'package:flutter/material.dart';
 import 'package:dashboard/utils/colors/colors.dart';
 import 'package:dashboard/widget/text.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class ShoppingItem extends StatelessWidget {
   final String title;
   final String description;
   final String image;
-  final double price;
+  final String price;
   final bool isLiked;
+  Function function;
 
   ShoppingItem({
     Key? key,
@@ -15,14 +20,14 @@ class ShoppingItem extends StatelessWidget {
     required this.description,
     required this.image,
     required this.price,
-    this.isLiked = true,
+    required this.function,
+    required this.isLiked,
   });
 
   @override
   Widget build(BuildContext context) {
-   
+    print('Building ShoppingItem: $title');
     return Container(
-
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -36,7 +41,6 @@ class ShoppingItem extends StatelessWidget {
           ),
         ],
       ),
-      
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -51,13 +55,16 @@ class ShoppingItem extends StatelessWidget {
                 child: Image.asset(
                   image,
                   width: double.infinity,
+                  height: 120,
                   fit: BoxFit.cover,
                 ),
               ),
               Padding(
                 padding: EdgeInsets.all(8),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    function();
+                  },
                   child: Icon(
                     isLiked ? Icons.favorite : Icons.favorite_border,
                     color: isLiked ? Colors.red : Colors.grey,
@@ -108,8 +115,8 @@ class ShoppingItem extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(8),
                 child: text(
-                  "\$${price}",
-                  16,
+                  "\Rp${price}",
+                  13,
                   db1_green,
                   FontWeight.bold,
                 ),

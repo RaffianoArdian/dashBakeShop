@@ -1,3 +1,4 @@
+import 'package:dashboard/utils/colors/title_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomImageSliderItem extends StatelessWidget {
@@ -31,7 +32,7 @@ class CustomImageSliderItem extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.0,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.bold
               ),
             ),
           ),

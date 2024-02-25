@@ -2,15 +2,18 @@
 import 'package:dashboard/utils/colors/colors.dart';
 import 'package:dashboard/widget/text.dart';
 import 'package:flutter/material.dart';
+import 'package:stroke_text/stroke_text.dart';
 
 class InfoCard extends StatelessWidget {
   final String title;
 
+  final Color color;
   final String imageUrl;
   final double height;
 
   const InfoCard({
     super.key,
+    required this.color,
     required this.title,
     required this.imageUrl,
     required this.height,
@@ -41,7 +44,7 @@ class InfoCard extends StatelessWidget {
             margin: EdgeInsets.only(left: 10),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: text(title, 20, greentitle, FontWeight.bold),
+              child: StrokeText(text: title,textStyle: TextStyle(fontSize: 20),textColor: color,),
             ),
           ),
         ],
