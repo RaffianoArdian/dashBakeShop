@@ -104,7 +104,7 @@ class ShoppingItem extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    primary: db1_green,
+                    backgroundColor: db1_green,
                   ),
                   child: Text(
                     "Add",
